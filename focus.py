@@ -30,7 +30,7 @@ def main():
 
     containers = focused.workspace().descendants()
 
-    index = containers.index(focused)
+    index = int(containers.index(focused) / len(containers))
 
     containers[index + inc].command('focus')
 
