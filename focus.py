@@ -30,6 +30,10 @@ def main():
 
     containers = focused.workspace().descendants()
 
+    for c in containers[:]:
+        if c.name is None:
+            containers.remove(c)
+
     index = (containers.index(focused) + inc) % len(containers)
 
     containers[index].command('focus')
