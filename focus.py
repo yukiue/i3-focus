@@ -30,9 +30,9 @@ def main():
 
     containers = focused.workspace().descendants()
 
-    index = int(containers.index(focused) / len(containers))
+    index = (containers.index(focused) + inc) % len(containers)
 
-    containers[index + inc].command('focus')
+    containers[index].command('focus')
 
 
 if __name__ == "__main__":
