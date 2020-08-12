@@ -1,19 +1,39 @@
 #!/usr/bin/env python3
 
-from i3ipc import Connection, Event
+import argparse
 
-i3 = Connection()
+from i3ipc import Connection
 
-tree = i3.get_tree()
 
-# current
-focused = tree.find_focused()
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description=
+        'cycle focused windows in current workspace on i3 Window Manager')
 
-containers = focused.workspace().descendants()
+    parser.add_argument('-p',
+                        '--prev',
+                        help='focus the previous window',
+                        action='store_true')
 
-print(containers)
-print(focused)
+    args = parser.parse_args()
+    return args
 
-index = containers.index(focused)
 
-containers[index + 1].command('focus')
+def main():
+    args = parse_args()
+
+    inc = -1 if args.prev else 1
+
+    i3 = Connection()
+
+    focused = i3.get_tree().find_focused()
+
+    containers = focused.workspace().descendants()
+
+    index = containers.index(focused)
+
+    containers[index + inc].command('focus')
+
+
+if __name__ == "__main__":
+    main()
